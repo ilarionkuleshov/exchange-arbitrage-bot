@@ -1,4 +1,4 @@
-from typing import List, Dict, Any
+from typing import Dict
 from dataclasses import dataclass, field
 
 
@@ -8,4 +8,4 @@ class SessionSettings:
     min_price_difference: float
     quote_currency: str
     min_quote_volume_24h: int
-    exchanges: List[Dict[str, Any]] = field(default_factory=list)
+    exchanges: Dict[str, int] = field(default_factory=dict)
