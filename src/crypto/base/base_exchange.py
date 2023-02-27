@@ -21,5 +21,5 @@ class BaseExchange(ABC):
         pass
 
     @abstractmethod
-    def get_ticker_client(self) -> Type[BaseTickerClient]:
+    def get_ticker_client(self) -> BaseTickerClient:
         pass
