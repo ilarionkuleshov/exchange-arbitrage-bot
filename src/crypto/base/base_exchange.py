@@ -7,19 +7,14 @@ from .base_ticker_client import BaseTickerClient
 
 
 class BaseExchange(ABC):
-    internal_id: int
     ticker_client: BaseTickerClient
 
-    def __init__(self, internal_id) -> None:
+    def __init__(self, name: str, internal_id: int) -> None:
         self.logger = logging.getLogger(self.__class__.__name__)
+        self.name = name
         self.internal_id = internal_id
-        self.ticker_client = self.get_ticker_client()(self.name, internal_id)
-
-    @property
-    @abstractmethod
-    def name(self) -> str:
-        pass
+        self.ticker_client = self.ticker_client_type()(name, internal_id)
 
     @abstractmethod
-    def get_ticker_client(self) -> BaseTickerClient:
+    def ticker_client_type(self) -> Type[BaseTickerClient]:
         pass
