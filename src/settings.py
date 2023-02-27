@@ -34,4 +34,6 @@ DB_HOST = os.getenv("DB_HOST", "")
 DB_PORT = os.getenv("DB_PORT", "")
 DB_DATABASE = os.getenv("DB_DATABASE", "")
 
+MARKET_SYMBOL_SEPARATOR = "/"
+
 configure_logging()
