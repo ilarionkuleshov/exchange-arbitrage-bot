@@ -1,3 +1,4 @@
 from .whitebit_ticker_client import WhitebitTickerClient
 from .okx_ticker_client import OkxTickerClient
 from .gateio_ticker_client import GateioTickerClient
+from .binance_ticker_client import BinanceTickerClient

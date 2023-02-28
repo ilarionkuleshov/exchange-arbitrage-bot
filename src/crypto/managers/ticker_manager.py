@@ -5,6 +5,7 @@ from crypto.clients.ticker import (
     WhitebitTickerClient,
     OkxTickerClient,
     GateioTickerClient,
+    BinanceTickerClient
 )
 
 
@@ -15,4 +16,5 @@ class TickerManager(BaseManager):
             "white_bit": WhitebitTickerClient,
             "okx": OkxTickerClient,
             "gateio": GateioTickerClient,
+            "binance": BinanceTickerClient,
         }
