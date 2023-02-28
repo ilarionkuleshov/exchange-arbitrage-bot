@@ -31,25 +31,8 @@ class TickerSpider(Spider):
         self.ticker_manager = TickerManager(self.session_settings)
 
     def init_session_settings(self, raw_session_id: str) -> None:
-        session_id = safe_execute(int, raw_session_id)
-        if session_id is None:
-            raise Exception("Invalid session_id was passed")
-
+        self.session_settings = SessionSettings.from_db(raw_session_id)
         with create_engine(mysql_connection_url()).connect() as connection:
-            raw_session_settings = connection.execute(
-                select(Session.settings).where(Session.id == session_id)
-            )
-            raw_session_settings = list(raw_session_settings)
-            if len(raw_session_settings) != 1 or len(raw_session_settings[0]) != 1:
-                raise Exception(
-                    f"Session with id = {session_id} does not exist in the database"
-                )
-            session_settings = safe_execute(json.loads, raw_session_settings[0][0])
-            if session_settings is None:
-                raise Exception(
-                    f"Invalid settings specified for the session (id = {session_id})"
-                )
-            self.session_settings = SessionSettings(session_id, **session_settings)
             for exchange in connection.execute(
                 select(Exchange.id, Exchange.name).where(
                     Exchange.is_active == True
