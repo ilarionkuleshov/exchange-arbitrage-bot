@@ -3,7 +3,8 @@ from typing import Type, Dict
 from crypto.base import BaseManager, BaseClient
 from crypto.clients.ticker import (
     WhitebitTickerClient,
-    OkxTickerClient
+    OkxTickerClient,
+    GateioTickerClient,
 )
 
 
@@ -13,4 +14,5 @@ class TickerManager(BaseManager):
         return {
             "white_bit": WhitebitTickerClient,
             "okx": OkxTickerClient,
+            "gateio": GateioTickerClient,
         }
