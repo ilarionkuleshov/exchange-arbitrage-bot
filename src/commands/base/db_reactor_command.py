@@ -22,9 +22,8 @@ class DBReactorCommand(ScrapyCommand, ABC):
         self.project_settings = get_project_settings()
         self.db_connection_pool = open_db_connection_pool()
 
-    @abstractmethod
     def execute(self, args: list, opts: Namespace) -> Deferred:
-        pass
+        raise NotImplementedError()
 
     def __execute(self, args: list, opts: Namespace) -> Deferred:
         d = self.execute(args, opts)
