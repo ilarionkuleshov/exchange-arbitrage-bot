@@ -21,7 +21,10 @@ class BaseTickerClient(BaseClient):
         )
         return Request(
             url=self.api_endpoint_url,
-            callback=spider_callback
+            callback=spider_callback,
+            meta={
+                "exchange_name": self.exchange_name
+            }
         )
 
     @abstractmethod
