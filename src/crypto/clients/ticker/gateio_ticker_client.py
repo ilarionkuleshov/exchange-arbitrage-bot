@@ -1,4 +1,4 @@
-from typing import Generator, Union
+from typing import Generator, Union, Optional
 
 from crypto.base import BaseTickerClient
 from interfaces import MarketSymbol
@@ -11,8 +11,12 @@ class GateioTickerClient(BaseTickerClient):
     def api_endpoint_url(self) -> str:
         return "https://api.gateio.ws/api/v4/spot/tickers"
 
-    def parse(self, json_response: Union[dict, list]) -> Generator[MarketItem, None, None]:                
-        for data in (json_response or []):
+    def parse(
+        self,
+        primary_response: Union[dict, list],
+        additional_response: Optional[Union[dict, list]] = None
+    ) -> Generator[MarketItem, None, None]:
+        for data in (primary_response or []):
             if self._validate_market_data(data):
                 yield MarketItem(
                     exchange_id=self.exchange_internal_id,
