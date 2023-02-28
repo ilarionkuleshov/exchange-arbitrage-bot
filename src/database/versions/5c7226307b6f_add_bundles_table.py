@@ -7,7 +7,7 @@ Create Date: 2023-02-26 12:37:04.797620
 """
 from alembic import op
 
-from sqlalchemy import Column, text
+from sqlalchemy import Column, ForeignKey, text
 from sqlalchemy.dialects.mysql import BIGINT, FLOAT, TEXT, SMALLINT, TIMESTAMP
 
 
@@ -22,8 +22,8 @@ def upgrade() -> None:
     op.create_table(
         "bundles",
         Column("id", BIGINT(unsigned=True), primary_key=True, autoincrement=True),
-        Column("market_from_id", BIGINT(unsigned=True), nullable=False),
-        Column("market_to_id", BIGINT(unsigned=True), nullable=False),
+        Column("market_from_id", BIGINT(unsigned=True), ForeignKey("markets.id"), nullable=False),
+        Column("market_to_id", BIGINT(unsigned=True), ForeignKey("markets.id"), nullable=False),
         Column("profit", FLOAT(), nullable=False),
         Column("exception", TEXT(), nullable=True, default=None),
         Column(

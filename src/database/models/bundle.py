@@ -1,4 +1,4 @@
-from sqlalchemy import Column, UniqueConstraint
+from sqlalchemy import Column, ForeignKey, UniqueConstraint
 from sqlalchemy.dialects.mysql import BIGINT, FLOAT
 
 from .base import Base
@@ -8,8 +8,12 @@ from .mixins import PrimaryKeyMixin, ExceptionMixin, StatusMixin, TimestampsMixi
 class Bundle(Base, PrimaryKeyMixin, ExceptionMixin, StatusMixin, TimestampsMixin):
     __tablename__ = "bundles"
 
-    market_from_id = Column("market_from_id", BIGINT(unsigned=True), nullable=False)
-    market_to_id = Column("market_to_id", BIGINT(unsigned=True), nullable=False)
+    market_from_id = Column(
+        "market_from_id", BIGINT(unsigned=True), ForeignKey("markets.id"), nullable=False
+    )
+    market_to_id = Column(
+        "market_to_id", BIGINT(unsigned=True), ForeignKey("markets.id"), nullable=False
+    )
     profit = Column("profit", FLOAT(), nullable=False)
 
     __table_args__ = (
