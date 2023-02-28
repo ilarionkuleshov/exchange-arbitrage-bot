@@ -6,9 +6,11 @@ import os
 
 from dotenv import load_dotenv
 from scrapy.utils.log import configure_logging
+from scrapy.utils.reactor import install_reactor
 
 
 load_dotenv()
+install_reactor("twisted.internet.asyncioreactor.AsyncioSelectorReactor")
 
 ########## Scrapy Settings ###########
 
