@@ -1,1 +1,2 @@
 from .whitebit_ticker_client import WhitebitTickerClient
+from .okx_ticker_client import OkxTickerClient
