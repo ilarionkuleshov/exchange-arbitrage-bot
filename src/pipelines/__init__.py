@@ -1,1 +1,2 @@
 from .ticker_db_pipeline import TickerDBPipeline
+from .market_filter_pipeline import MarketFilterPipeline

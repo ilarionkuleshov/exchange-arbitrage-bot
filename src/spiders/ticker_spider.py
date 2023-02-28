@@ -6,7 +6,7 @@ from scrapy.http import Response
 
 from sqlalchemy import create_engine, select
 
-from pipelines import TickerDBPipeline
+from pipelines import TickerDBPipeline, MarketFilterPipeline
 from crypto.managers import TickerManager
 from database.models import Session, Exchange
 from interfaces import SessionSettings
@@ -18,6 +18,7 @@ class TickerSpider(Spider):
     name = "ticker_spider"
     custom_settings = {
         "ITEM_PIPELINES": {
+            get_import_full_name(MarketFilterPipeline): 299,
             get_import_full_name(TickerDBPipeline): 300
         }
     }
