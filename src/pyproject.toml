@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "exchange-arbitrage-bot"
+version = "0.1.0"
+description = ""
+authors = ["ilarionkuleshov <ilarion.kuleshov@gmail.com>"]
+readme = "README.md"
+packages = [{include = "exchange_arbitrage_bot"}]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+scrapy = "^2.8.0"
+python-dotenv = "^1.0.0"
+sqlalchemy = "^2.0.4"
+alembic = "^1.9.4"
+mysqlclient = "^2.1.1"
+telebot = "^0.0.5"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
