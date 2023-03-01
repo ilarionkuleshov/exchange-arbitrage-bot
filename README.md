@@ -5,6 +5,7 @@
 cd src/
 poetry install
 poetry run alembic upgrade head
+poetry run scrapy exchange_initializer
 ```
 
 ## Usage
