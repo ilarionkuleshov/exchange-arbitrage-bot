@@ -8,6 +8,7 @@ from utils import format_exchange_name
 
 @dataclass
 class TGBundleMessage:
+    bundle_id: int
     exchange_from_name: str
     exchange_to_name: str
     symbol: MarketSymbol
@@ -29,7 +30,7 @@ class TGBundleMessage:
         symbol = self.symbol.to_str().upper()
         message_text = "\n".join(
             [
-                f"Bundle: *{symbol}*",
+                f"Bundle \[ID {self.bundle_id}\]: *{symbol}*",
                 f"*{exchange_from} -> {exchange_to}*",
                 f"Profit: *{self.profit*100:.2f}*%",
                 "",

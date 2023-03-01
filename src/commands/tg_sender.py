@@ -66,6 +66,7 @@ class TGSender(DBReactorCommand):
         bundles = {
             bundle["id"]:TGBundleMessage.from_dict(
                 {
+                    "bundle_id": bundle["id"],
                     "exchange_from_name": bundle["exchange_from_name"],
                     "exchange_to_name": bundle["exchange_to_name"],
                     "symbol": MarketSymbol.from_str(bundle["symbol"]),
