@@ -51,7 +51,7 @@ class TGSender(DBReactorCommand):
             exchange_to_alias.name.label("exchange_to_name"),
             market_from_alias.symbol, Bundle.profit
         ).where(
-            Bundle.status == TaskStatusCodes.SUCCESS.value
+            Bundle.status == TaskStatusCodes.NOT_PROCESSED.value
         ).join(
             market_from_alias, Bundle.market_from_id == market_from_alias.id
         ).join(
@@ -98,7 +98,8 @@ class TGSender(DBReactorCommand):
                 self.tg_bot.send_message(
                     chat_id=chat_id,
                     text=message_text,
-                    parse_mode="MarkdownV2"
+                    parse_mode=bundle.parse_mode,
+                    disable_web_page_preview=True
                 )
                 self.logger.info(
                     f"Successfully sent message to user with id={chat_id}, "

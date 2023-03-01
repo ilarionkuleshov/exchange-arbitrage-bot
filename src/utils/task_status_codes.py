@@ -6,7 +6,7 @@ class TaskStatusCodes(IntEnum):
     IN_PROCESSING = 1
 
     SUCCESS = 2
-    MESSAGE_SENT_SUCCESS = 22
+    MESSAGE_SENT_SUCCESS = SUCCESS
 
     ERROR = 4
     BANNED = 44
