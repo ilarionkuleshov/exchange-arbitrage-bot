@@ -44,4 +44,6 @@ MIN_PRICE_DIFFERENCE = float(os.getenv("MIN_PRICE_DIFFERENCE", "0.02"))
 QUOTE_CURRENCY = os.getenv("QUOTE_CURRENCY", "usdt")
 MIN_QUOTE_VOLUME_24H = int(os.getenv("MIN_QUOTE_VOLUME_24H", "50000"))
 
+TG_BOT_TOKEN = os.getenv("TG_BOT_TOKEN", "")
+
 configure_logging()
