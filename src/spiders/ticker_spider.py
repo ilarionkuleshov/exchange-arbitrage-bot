@@ -28,7 +28,7 @@ class TickerSpider(Spider):
     def __init__(self, session_id: str, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.init_session_settings(session_id)
-        self.ticker_manager = TickerManager(self.session_settings)
+        self.ticker_manager = TickerManager(self.session_settings.exchanges)
 
     def init_session_settings(self, raw_session_id: str) -> None:
         self.session_settings = SessionSettings.from_db(raw_session_id)

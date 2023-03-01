@@ -4,7 +4,6 @@ from typing import Iterator, Type, Dict
 from abc import ABC, abstractmethod
 
 from .base_client import BaseClient
-from interfaces import SessionSettings
 
 
 class BaseManager(ABC):
@@ -15,9 +14,9 @@ class BaseManager(ABC):
     def clients_types(self) -> Dict[str, Type[BaseClient]]:
         pass
 
-    def __init__(self, session_settings: SessionSettings) -> None:
+    def __init__(self, exchanges: Dict[str, int]) -> None:
         self.logger = logging.getLogger(self.__class__.__name__)
-        for exchange_name, exchange_id in session_settings.exchanges.items():
+        for exchange_name, exchange_id in exchanges.items():
             self.clients[exchange_name] = self.clients_types[exchange_name](
                 exchange_name, exchange_id
             )
