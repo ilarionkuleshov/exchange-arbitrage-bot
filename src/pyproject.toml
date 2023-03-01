@@ -13,6 +13,7 @@ python-dotenv = "^1.0.0"
 sqlalchemy = "^2.0.4"
 alembic = "^1.9.4"
 mysqlclient = "^2.1.1"
+telebot = "^0.0.5"
 
 
 [build-system]
