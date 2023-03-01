@@ -2,7 +2,6 @@ from typing import Dict, Any
 from dataclasses import dataclass
 
 from interfaces import MarketSymbol
-from crypto.managers import UrlBuilderManager
 from utils import format_exchange_name
 
 
@@ -21,7 +20,7 @@ class TGBundleMessage:
     def from_dict(cls, data_dict: Dict[str, Any]) -> "TGBundleMessage":
         return cls(**data_dict)
 
-    def to_str(self, url_builder_manager: UrlBuilderManager) -> str:
+    def to_str(self, url_builder_manager: "UrlBuilderManager") -> str: # TODO
         exchange_from = format_exchange_name(self.exchange_from_name)
         exchange_to = format_exchange_name(self.exchange_to_name)
         exchange_from_client = url_builder_manager.get_client(self.exchange_from_name)
