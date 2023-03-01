@@ -65,11 +65,3 @@ class DualComparer(DBReactorCommand):
 
     def _calculate_abs_price_difference(self, price_1: float, price_2: float) -> float:
         return abs(price_1 - price_2) / max(price_1, price_2)
-
-    def _get_raw_session_id(self, args: list) -> str:
-        for arg in args:
-            if "session_id" in arg:
-                arg_parts = arg.split("=")
-                if len(arg_parts) == 2 and arg_parts[1].isdigit():
-                    return arg_parts[1]
-        return ""

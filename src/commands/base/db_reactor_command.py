@@ -37,3 +37,11 @@ class DBReactorCommand(ScrapyCommand, ABC):
     def run(self, args: list, opts: Namespace) -> None:
         reactor.callFromThread(self.__execute, args, opts)
         reactor.run()
+
+    def _get_raw_session_id(self, args: list) -> str:
+        for arg in args:
+            if "session_id" in arg:
+                arg_parts = arg.split("=")
+                if len(arg_parts) == 2 and arg_parts[1].isdigit():
+                    return arg_parts[1]
+        return ""
