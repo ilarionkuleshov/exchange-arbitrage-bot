@@ -1,7 +1,7 @@
 import json
 
-from typing import Dict
-from dataclasses import dataclass, field
+from typing import Dict, List, Any
+from dataclasses import dataclass, field, asdict
 
 from sqlalchemy import create_engine, select
 
@@ -38,3 +38,7 @@ class SessionSettings:
                     f"Invalid settings specified for the session (id = {session_id})"
                 )
             return cls(session_id, **session_settings)
+
+    def to_dict(self, exclude_keys: List[str] = []) -> Dict[str, Any]:
+        data_dict = asdict(self)
+        return {key:value for key, value in data_dict.items() if key not in exclude_keys}
