@@ -19,7 +19,7 @@ class SessionSettings:
     exchanges: Dict[str, int] = field(default_factory=dict)
 
     @classmethod
-    def from_db(cls, raw_session_id: str):
+    def from_db(cls, raw_session_id: str) -> "SessionSettings":
         session_id = safe_execute(int, raw_session_id)
         if session_id is None:
             raise Exception("Invalid session_id was passed")
