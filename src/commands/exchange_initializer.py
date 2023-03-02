@@ -7,7 +7,6 @@ from sqlalchemy.dialects.mysql import insert
 
 from .base import DBReactorCommand
 from database.models import Exchange
-from interfaces import SessionSettings
 from crypto.managers import TickerManager
 from utils.database import compile_stmt
 
@@ -20,7 +19,7 @@ class ExchangeInitializer(DBReactorCommand):
     def insert_exchanges(self, transaction: DictCursor) -> None:
         exchanges = [
             {"name": exchange}
-            for exchange in TickerManager(SessionSettings(0, 0.0, "", 0)).clients_types.keys()
+            for exchange in TickerManager({}).clients_types.keys()
         ]
         stmt = insert(Exchange).values(exchanges).prefix_with("IGNORE")
         transaction.execute(*compile_stmt(stmt))
