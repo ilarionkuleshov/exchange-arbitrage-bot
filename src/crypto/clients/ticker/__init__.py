@@ -2,3 +2,5 @@ from .whitebit_ticker_client import WhitebitTickerClient
 from .okx_ticker_client import OkxTickerClient
 from .gateio_ticker_client import GateioTickerClient
 from .binance_ticker_client import BinanceTickerClient
+from .kraken_ticker_client import KrakenTickerClient
+from .kucoin_ticker_client import KucoinTickerClient

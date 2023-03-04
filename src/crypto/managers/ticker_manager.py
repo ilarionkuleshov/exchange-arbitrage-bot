@@ -6,6 +6,8 @@ from crypto.clients.ticker import (
     OkxTickerClient,
     GateioTickerClient,
     BinanceTickerClient,
+    KrakenTickerClient,
+    KucoinTickerClient,
 )
 
 
@@ -17,4 +19,6 @@ class TickerManager(BaseManager):
             "okx": OkxTickerClient,
             "gate_i_o": GateioTickerClient,
             "binance": BinanceTickerClient,
+            "kraken": KrakenTickerClient,
+            "ku_coin": KucoinTickerClient,
         }

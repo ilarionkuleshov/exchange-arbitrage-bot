@@ -6,6 +6,8 @@ from crypto.clients.url_builder import (
     OkxUrlBuilderClient,
     GateioUrlBuilderClient,
     BinanceUrlBuilderClient,
+    KrakenUrlBuilderClient,
+    KucoinUrlBuilderClient,
 )
 
 
@@ -17,4 +19,6 @@ class UrlBuilderManager(BaseManager):
             "okx": OkxUrlBuilderClient,
             "gate_i_o": GateioUrlBuilderClient,
             "binance": BinanceUrlBuilderClient,
+            "kraken": KrakenUrlBuilderClient,
+            "ku_coin": KucoinUrlBuilderClient,
         }
