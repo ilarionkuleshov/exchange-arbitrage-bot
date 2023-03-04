@@ -7,6 +7,7 @@ from crypto.clients.ticker import (
     GateioTickerClient,
     BinanceTickerClient,
     KrakenTickerClient,
+    KucoinTickerClient,
 )
 
 
@@ -19,4 +20,5 @@ class TickerManager(BaseManager):
             "gate_i_o": GateioTickerClient,
             "binance": BinanceTickerClient,
             "kraken": KrakenTickerClient,
+            "ku_coin": KucoinTickerClient,
         }
