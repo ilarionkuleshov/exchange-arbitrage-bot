@@ -5,36 +5,32 @@ from scrapy import Request
 
 from .base_client import BaseClient
 from items import MarketItem
+from interfaces import MarketSymbol
 from utils import format_exchange_name
 
 
 class BaseLastTradeClient(BaseClient):
-    @property
     @abstractmethod
-    def api_endpoint_url(self) -> str:
+    def build_api_endpoint_url(self, symbol: MarketSymbol) -> str:
         pass
 
     def build_request(
-        self, spider_callback: Callable, url: str = None, meta: dict = {}
+        self, spider_callback: Callable, symbol: MarketSymbol
     ) -> Request:
         self.logger.info(
             f"Building request for "
             f"{format_exchange_name(self.exchange_name)} last trade client..."
         )
-        request_url = url if url else self.api_endpoint_url
+        request_url = self.build_api_endpoint_url(symbol)
         return Request(
             url=request_url,
             callback=spider_callback,
             meta={
-                "exchange_name": self.exchange_name,
-                **meta
+                "exchange_name": self.exchange_name
             }
         )
 
     @abstractmethod
     def parse(
-        self,
-        primary_response: Union[dict, list],
-        additional_response: Optional[Union[dict, list]] = None
+        self, response: Union[dict, list], market_id: int
     ) -> Generator[MarketItem, None, None]:
-        pass
