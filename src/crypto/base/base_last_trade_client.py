@@ -15,7 +15,7 @@ class BaseLastTradeClient(BaseClient):
         pass
 
     def build_request(
-        self, spider_callback: Callable, symbol: MarketSymbol
+        self, spider_callback: Callable, symbol: MarketSymbol, market_id: int
     ) -> Request:
         self.logger.info(
             f"Building request for "
@@ -26,7 +26,8 @@ class BaseLastTradeClient(BaseClient):
             url=request_url,
             callback=spider_callback,
             meta={
-                "exchange_name": self.exchange_name
+                "exchange_name": self.exchange_name,
+                "market_id": market_id
             }
         )
 
@@ -34,3 +35,4 @@ class BaseLastTradeClient(BaseClient):
     def parse(
         self, response: Union[dict, list], market_id: int
     ) -> Generator[LastTradeItem, None, None]:
+        pass
