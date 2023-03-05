@@ -1,10 +1,10 @@
 from abc import abstractmethod
-from typing import Callable, Generator, Union, Optional
+from typing import Callable, Generator, Union
 
 from scrapy import Request
 
 from .base_client import BaseClient
-from items import MarketItem
+from items import LastTradeItem
 from interfaces import MarketSymbol
 from utils import format_exchange_name
 
@@ -33,4 +33,4 @@ class BaseLastTradeClient(BaseClient):
     @abstractmethod
     def parse(
         self, response: Union[dict, list], market_id: int
-    ) -> Generator[MarketItem, None, None]:
+    ) -> Generator[LastTradeItem, None, None]:
