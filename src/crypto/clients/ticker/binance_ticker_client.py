@@ -4,6 +4,7 @@ from crypto.base import BaseTickerClient
 from interfaces import MarketSymbol
 from items import MarketItem
 from utils import safe_execute
+from utils.status_codes import MarketStatusCodes
 
 
 class BinanceTickerClient(BaseTickerClient):
@@ -30,7 +31,8 @@ class BinanceTickerClient(BaseTickerClient):
                     exchange_id=self.exchange_internal_id,
                     symbol=validated_trading_pairs[data["symbol"]],
                     price=float(data["lastPrice"]),
-                    quote_volume_24h=float(data["quoteVolume"])
+                    quote_volume_24h=float(data["quoteVolume"]),
+                    status=MarketStatusCodes.SUCCESS.value
                 )
 
     def _validate_market_data(self, data: dict) -> bool:

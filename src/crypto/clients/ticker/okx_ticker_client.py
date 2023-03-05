@@ -4,6 +4,7 @@ from crypto.base import BaseTickerClient
 from interfaces import MarketSymbol
 from items import MarketItem
 from utils import safe_execute
+from utils.status_codes import MarketStatusCodes
 
 
 class OkxTickerClient(BaseTickerClient):
@@ -22,7 +23,8 @@ class OkxTickerClient(BaseTickerClient):
                     exchange_id=self.exchange_internal_id,
                     symbol=MarketSymbol.from_str(data["instId"], "-").to_str(),
                     price=float(data["last"]),
-                    quote_volume_24h=float(data["volCcy24h"])
+                    quote_volume_24h=float(data["volCcy24h"]),
+                    status=MarketStatusCodes.SUCCESS.value
                 )
 
     def _validate_market_data(self, data: dict) -> bool:
