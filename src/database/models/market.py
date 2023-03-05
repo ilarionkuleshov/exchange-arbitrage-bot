@@ -12,7 +12,7 @@ class Market(Base, PrimaryKeyMixin, StatusMixin):
         "exchange_id", BIGINT(unsigned=True), ForeignKey("exchanges.id"), nullable=False
     )
     symbol = Column("symbol", VARCHAR(25), nullable=False)
-    price = Column("price", FLOAT(), nullable=False)
+    price = Column("price", FLOAT(), nullable=True, default=None)
     quote_volume_24h = Column("quote_volume_24h", FLOAT(), nullable=True, default=None)
 
     __table_args__ = (

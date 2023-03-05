@@ -24,7 +24,7 @@ def upgrade() -> None:
         Column("id", BIGINT(unsigned=True), primary_key=True, autoincrement=True),
         Column("exchange_id", BIGINT(unsigned=True), ForeignKey("exchanges.id"), nullable=False),
         Column("symbol", VARCHAR(25), nullable=False),
-        Column("price", FLOAT(), nullable=False),
+        Column("price", FLOAT(), nullable=True, default=None),
         Column("quote_volume_24h", FLOAT(), nullable=True, default=None),
         Column(
             "status",
