@@ -21,7 +21,7 @@ class DBCleaner(DBReactorCommand):
         return d
 
     def delete_bundles(self, transaction: DictCursor) -> Tuple[Dict[str, int]]:
-        delete_stmt = delete(Bundle).where(Bundle.status == BundleStatusCodes.NOT_PROCESSED.value)
+        delete_stmt = delete(Bundle).where(Bundle.status != BundleStatusCodes.BANNED.value)
         transaction.execute(*compile_stmt(delete_stmt))
         select_markets_ids_stmt = select(Bundle.market_from_id, Bundle.market_to_id)
         transaction.execute(*compile_stmt(select_markets_ids_stmt))
