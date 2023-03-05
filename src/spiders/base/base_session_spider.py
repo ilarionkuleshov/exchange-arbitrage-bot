@@ -1,11 +1,16 @@
+import json
+
 from abc import ABC
+from typing import Optional, Union
 
 from scrapy import Spider
-from sqlalchemy import create_engine, select
+from scrapy.http import Response
+from sqlalchemy import Connection, create_engine, select
 
 from database.models import Exchange
 from interfaces import SessionSettings
 from utils.database import mysql_connection_url
+from utils import safe_execute
 
 
 class BaseSessionSpider(Spider, ABC):
@@ -26,4 +31,20 @@ class BaseSessionSpider(Spider, ABC):
                 )
             ):
                 self.session_settings.exchanges[exchange[1]] = exchange[0]
+                self.additional_init_from_db(connection)
         self.logger.info("Spider session_settings successfully initialized")
+
+    def additional_init_from_db(self, connection: Connection) -> None:
+        pass
+
+    def _get_json_response(
+        self, response: Response, exchange_name: str
+    ) -> Optional[Union[dict, list]]:
+        json_response = safe_execute(json.loads, response.text)
+        if type(json_response) not in [dict, list]:
+            self.logger.error(
+                f"Recieve empty response from "
+                f"{exchange_name} client"
+            )
+            return None
+        return json_response

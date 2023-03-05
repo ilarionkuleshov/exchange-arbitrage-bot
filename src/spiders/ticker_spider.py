@@ -1,5 +1,4 @@
-import json
-from typing import Generator, Union, Optional
+from typing import Generator, Union
 
 from scrapy import Request, Item
 from scrapy.http import Response
@@ -7,7 +6,7 @@ from scrapy.http import Response
 from .base import BaseSessionSpider
 from pipelines import TickerDBPipeline, MarketFilterPipeline
 from crypto.managers import TickerManager
-from utils import get_import_full_name, safe_execute
+from utils import get_import_full_name
 
 
 class TickerSpider(BaseSessionSpider):
@@ -46,15 +45,3 @@ class TickerSpider(BaseSessionSpider):
             yield from ticker_client.parse(
                 response.meta["primary_response"], additional_response
             )
-
-    def _get_json_response(
-        self, response: Response, exchange_name: str
-    ) -> Optional[Union[dict, list]]:
-        json_response = safe_execute(json.loads, response.text)
-        if type(json_response) not in [dict, list]:
-            self.logger.error(
-                f"Recieve empty response from "
-                f"{exchange_name} ticker client"
-            )
-            return None
-        return json_response
