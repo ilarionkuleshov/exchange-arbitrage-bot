@@ -8,7 +8,7 @@ from sqlalchemy import delete, select
 
 from .base import DBReactorCommand
 from database.models import Bundle, Market
-from utils import TaskStatusCodes
+from utils.status_codes import BundleStatusCodes
 from utils.database import compile_stmt, stringify_stmt
 
 
@@ -21,7 +21,7 @@ class DBCleaner(DBReactorCommand):
         return d
 
     def delete_bundles(self, transaction: DictCursor) -> Tuple[Dict[str, int]]:
-        delete_stmt = delete(Bundle).where(Bundle.status != TaskStatusCodes.BANNED.value)
+        delete_stmt = delete(Bundle).where(Bundle.status == BundleStatusCodes.NOT_PROCESSED.value)
         transaction.execute(*compile_stmt(delete_stmt))
         select_markets_ids_stmt = select(Bundle.market_from_id, Bundle.market_to_id)
         transaction.execute(*compile_stmt(select_markets_ids_stmt))

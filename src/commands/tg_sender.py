@@ -13,7 +13,7 @@ from .base import DBReactorCommand
 from database.models import Exchange, Market, Bundle, TGUser
 from interfaces import MarketSymbol, TGBundleMessage
 from crypto.managers import UrlBuilderManager
-from utils import TaskStatusCodes
+from utils.status_codes import BundleStatusCodes
 from utils.database import compile_stmt, stringify_stmt
 
 
@@ -51,7 +51,7 @@ class TGSender(DBReactorCommand):
             exchange_to_alias.name.label("exchange_to_name"),
             market_from_alias.symbol, Bundle.profit
         ).where(
-            Bundle.status == TaskStatusCodes.NOT_PROCESSED.value
+            Bundle.status == BundleStatusCodes.NOT_PROCESSED.value
         ).join(
             market_from_alias, Bundle.market_from_id == market_from_alias.id
         ).join(
@@ -109,7 +109,7 @@ class TGSender(DBReactorCommand):
         return list(bundles.keys())
 
     def build_update_bundles_stmt(self, bundles_ids) -> str:
-        stmt = update(Bundle).values(status=TaskStatusCodes.MESSAGE_SENT_SUCCESS.value).where(
+        stmt = update(Bundle).values(status=BundleStatusCodes.MESSAGE_SENT_SUCCESS.value).where(
             Bundle.id.in_(bundles_ids)
         )
         return stringify_stmt(stmt)

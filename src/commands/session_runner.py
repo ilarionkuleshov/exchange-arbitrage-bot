@@ -12,7 +12,7 @@ from sqlalchemy.dialects.mysql import insert
 from .base import DBReactorCommand
 from interfaces import SessionSettings
 from database.models import Session
-from utils import TaskStatusCodes
+from utils.status_codes import SessionStatusCodes
 from utils.database import compile_stmt, stringify_stmt
 
 from spiders import TickerSpider
@@ -41,7 +41,7 @@ class SessionRunner(DBReactorCommand):
         )
         stmt = insert(Session).values(
             settings=json.dumps(self.session_settings.to_dict(["session_id", "exchanges"])),
-            status=TaskStatusCodes.IN_PROCESSING.value
+            status=SessionStatusCodes.IN_PROCESSING.value
         )
         transaction.execute(*compile_stmt(stmt))
         if type(transaction.lastrowid) != int:
@@ -67,7 +67,7 @@ class SessionRunner(DBReactorCommand):
         )
 
     def build_update_session_stmt(self, _) -> str:
-        stmt = update(Session).values(status=TaskStatusCodes.SUCCESS.value).where(
+        stmt = update(Session).values(status=SessionStatusCodes.SUCCESS.value).where(
             Session.id == self.session_settings.session_id
         )
         return stringify_stmt(stmt)
