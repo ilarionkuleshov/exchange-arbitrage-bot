@@ -2,10 +2,10 @@ from sqlalchemy import Column, ForeignKey, UniqueConstraint
 from sqlalchemy.dialects.mysql import BIGINT, VARCHAR, FLOAT
 
 from .base import Base
-from .mixins import PrimaryKeyMixin
+from .mixins import PrimaryKeyMixin, StatusMixin
 
 
-class Market(Base, PrimaryKeyMixin):
+class Market(Base, PrimaryKeyMixin, StatusMixin):
     __tablename__ = "markets"
 
     exchange_id = Column(
