@@ -1,0 +1,1 @@
+from .huobi_last_trade_client import HuobiLastTradeClient

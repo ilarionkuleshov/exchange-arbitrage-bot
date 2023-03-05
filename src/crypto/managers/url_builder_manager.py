@@ -8,6 +8,7 @@ from crypto.clients.url_builder import (
     BinanceUrlBuilderClient,
     KrakenUrlBuilderClient,
     KucoinUrlBuilderClient,
+    HuobiUrlBuilderClient,
 )
 
 
@@ -21,4 +22,5 @@ class UrlBuilderManager(BaseManager):
             "binance": BinanceUrlBuilderClient,
             "kraken": KrakenUrlBuilderClient,
             "ku_coin": KucoinUrlBuilderClient,
+            "huobi": HuobiUrlBuilderClient,
         }

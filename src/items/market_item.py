@@ -6,3 +6,4 @@ class MarketItem(Item):
     symbol = Field()
     price = Field()
     quote_volume_24h = Field()
+    status = Field()

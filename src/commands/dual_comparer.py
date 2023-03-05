@@ -12,6 +12,7 @@ from .base import DBReactorCommand
 from interfaces import SessionSettings
 from database.models import Market, Bundle
 from utils.database import compile_stmt, stringify_stmt
+from utils.status_codes import MarketStatusCodes
 
 
 class DualComparer(DBReactorCommand):
@@ -25,7 +26,9 @@ class DualComparer(DBReactorCommand):
         return d
 
     def select_markets(self, transaction: DictCursor) -> Tuple[Dict[str, Any]]:
-        stmt = select(Market.id, Market.exchange_id, Market.symbol, Market.price)
+        stmt = select(Market.id, Market.exchange_id, Market.symbol, Market.price).where(
+            Market.status == MarketStatusCodes.SUCCESS.value
+        )
         transaction.execute(*compile_stmt(stmt))
         return transaction.fetchall()
 

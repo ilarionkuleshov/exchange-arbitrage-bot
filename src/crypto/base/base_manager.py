@@ -17,9 +17,12 @@ class BaseManager(ABC):
     def __init__(self, exchanges: Dict[str, int]) -> None:
         self.logger = logging.getLogger(self.__class__.__name__)
         for exchange_name, exchange_id in exchanges.items():
-            self.clients[exchange_name] = self.clients_types[exchange_name](
-                exchange_name, exchange_id
-            )
+            if exchange_name in self.clients_types:
+                self.clients[exchange_name] = self.clients_types[exchange_name](
+                    exchange_name, exchange_id
+                )
+            else:
+                self.logger.warn(f"{exchange_name} not in clients_types")
 
     def get_client(self, exchange_name: str) -> BaseClient:
         return self.clients[exchange_name]

@@ -4,6 +4,7 @@ from crypto.base import BaseTickerClient
 from interfaces import MarketSymbol
 from items import MarketItem
 from utils import safe_execute
+from utils.status_codes import MarketStatusCodes
 
 
 class KrakenTickerClient(BaseTickerClient):
@@ -32,7 +33,8 @@ class KrakenTickerClient(BaseTickerClient):
                     price=float(data["c"][0]),
                     quote_volume_24h=self._calculate_quote_volume(
                         float(data["v"][1]), float(data["c"][0])
-                    )
+                    ),
+                    status=MarketStatusCodes.SUCCESS.value
                 )
 
     def _validate_market_data(self, data: dict) -> bool:

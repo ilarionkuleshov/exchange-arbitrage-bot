@@ -8,6 +8,7 @@ from crypto.clients.ticker import (
     BinanceTickerClient,
     KrakenTickerClient,
     KucoinTickerClient,
+    HuobiTickerClient,
 )
 
 
@@ -21,4 +22,5 @@ class TickerManager(BaseManager):
             "binance": BinanceTickerClient,
             "kraken": KrakenTickerClient,
             "ku_coin": KucoinTickerClient,
+            "huobi": HuobiTickerClient,
         }

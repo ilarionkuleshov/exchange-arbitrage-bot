@@ -12,10 +12,10 @@ from sqlalchemy.dialects.mysql import insert
 from .base import DBReactorCommand
 from interfaces import SessionSettings
 from database.models import Session
-from utils import TaskStatusCodes
+from utils.status_codes import SessionStatusCodes
 from utils.database import compile_stmt, stringify_stmt
 
-from spiders import TickerSpider
+from spiders import TickerSpider, LastTradeSpider
 from commands import DBCleaner, DualComparer, TGSender
 
 
@@ -26,6 +26,7 @@ class SessionRunner(DBReactorCommand):
         d = self.db_connection_pool.runInteraction(self.insert_session)
         d.addCallback(self.db_cleaner_deferred)
         d.addCallback(self.ticker_spider_deferred)
+        d.addCallback(self.last_trade_spider_deferred)
         d.addCallback(self.dual_comparer_deferred)
         d.addCallback(self.tg_sender_deferred)
         d.addCallback(self.build_update_session_stmt)
@@ -41,7 +42,7 @@ class SessionRunner(DBReactorCommand):
         )
         stmt = insert(Session).values(
             settings=json.dumps(self.session_settings.to_dict(["session_id", "exchanges"])),
-            status=TaskStatusCodes.IN_PROCESSING.value
+            status=SessionStatusCodes.IN_PROCESSING.value
         )
         transaction.execute(*compile_stmt(stmt))
         if type(transaction.lastrowid) != int:
@@ -56,6 +57,11 @@ class SessionRunner(DBReactorCommand):
         runner.crawl(TickerSpider, session_id=self.session_settings.session_id)
         return runner.join()
 
+    def last_trade_spider_deferred(self, _) -> Deferred:
+        runner = CrawlerRunner(self.project_settings)
+        runner.crawl(LastTradeSpider, session_id=self.session_settings.session_id)
+        return runner.join()
+
     def dual_comparer_deferred(self, _) -> Deferred:
         return DualComparer().execute(
             [f"session_id={self.session_settings.session_id}"], Namespace()
@@ -67,7 +73,7 @@ class SessionRunner(DBReactorCommand):
         )
 
     def build_update_session_stmt(self, _) -> str:
-        stmt = update(Session).values(status=TaskStatusCodes.SUCCESS.value).where(
+        stmt = update(Session).values(status=SessionStatusCodes.SUCCESS.value).where(
             Session.id == self.session_settings.session_id
         )
         return stringify_stmt(stmt)
