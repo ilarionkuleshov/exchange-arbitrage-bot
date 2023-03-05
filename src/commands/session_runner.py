@@ -15,7 +15,7 @@ from database.models import Session
 from utils.status_codes import SessionStatusCodes
 from utils.database import compile_stmt, stringify_stmt
 
-from spiders import TickerSpider
+from spiders import TickerSpider, LastTradeSpider
 from commands import DBCleaner, DualComparer, TGSender
 
 
@@ -26,6 +26,7 @@ class SessionRunner(DBReactorCommand):
         d = self.db_connection_pool.runInteraction(self.insert_session)
         d.addCallback(self.db_cleaner_deferred)
         d.addCallback(self.ticker_spider_deferred)
+        d.addCallback(self.last_trade_spider_deferred)
         d.addCallback(self.dual_comparer_deferred)
         d.addCallback(self.tg_sender_deferred)
         d.addCallback(self.build_update_session_stmt)
@@ -54,6 +55,11 @@ class SessionRunner(DBReactorCommand):
     def ticker_spider_deferred(self, _) -> Deferred:
         runner = CrawlerRunner(self.project_settings)
         runner.crawl(TickerSpider, session_id=self.session_settings.session_id)
+        return runner.join()
+
+    def last_trade_spider_deferred(self, _) -> Deferred:
+        runner = CrawlerRunner(self.project_settings)
+        runner.crawl(LastTradeSpider, session_id=self.session_settings.session_id)
         return runner.join()
 
     def dual_comparer_deferred(self, _) -> Deferred:
